@@ -30,8 +30,13 @@ public class CharacterController2D : MonoBehaviour
 	public BoolEvent OnCrouchEvent;
 	private bool m_wasCrouching = false;
 
+	private Animator anime;
+
 	private void Awake()
 	{
+
+		anime = GetComponent<Animator>();
+
 		m_Rigidbody2D = GetComponent<Rigidbody2D>();
 
 		if (OnLandEvent == null)
@@ -57,7 +62,16 @@ public class CharacterController2D : MonoBehaviour
 				if (!wasGrounded)
 					OnLandEvent.Invoke();
 			}
+
 		}
+			if(m_Grounded == true)
+			{
+			anime.SetBool("Grounded", true);
+			}
+            else
+            {
+			anime.SetBool("Grounded", false);
+            }
 	}
 
 
@@ -115,13 +129,17 @@ public class CharacterController2D : MonoBehaviour
 			{
 				// ... flip the player.
 				Flip();
+				
 			}
 			// Otherwise if the input is moving the player left and the player is facing right...
 			else if (move < 0 && m_FacingRight)
 			{
 				// ... flip the player.
 				Flip();
+				
 			}
+			
+		
 		}
 		// If the player should jump...
 		if (m_Grounded && jump)
@@ -129,6 +147,7 @@ public class CharacterController2D : MonoBehaviour
 			// Add a vertical force to the player.
 			m_Grounded = false;
 			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+			
 		}
 	}
 

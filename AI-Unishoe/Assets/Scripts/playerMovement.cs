@@ -11,10 +11,13 @@ public class playerMovement : MonoBehaviour
 
     public float runSpeed = 0.7f;
     bool jump = false;
+
+    private Animator anime;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        anime = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -25,12 +28,14 @@ public class playerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump"))
         {
             jump = true;
+            anime.SetTrigger("Jumping");
         }
 
         if (Input.GetButtonDown("Fire1"))
         {
             //firing script
         }
+        anime.SetBool("running", horizontalMove != 0);
     }
 
     void FixedUpdate()
