@@ -13,6 +13,8 @@ public class LSystem : MonoBehaviour
     public GameObject[] Prefabs; //Platforms that can be generated
     public Transform spawnPoint; //Spawnpoint for the spawn
     int posX; //Used to incremently increase the x-position of the spawnpoint
+    public GameObject aStar;
+    public GameObject enemy;
 
     // Start is called before the first frame update
     void Start()
@@ -70,7 +72,6 @@ public class LSystem : MonoBehaviour
 
     IEnumerator Generate()
     {
-        yield return new WaitForEndOfFrame();
 
         //Goes through list and calls spawn-function
         for (int i = 0; i < Lsystem.Length; i++)
@@ -95,6 +96,9 @@ public class LSystem : MonoBehaviour
                     break;
             }
         }
+        aStar.SetActive(true);
+        yield return new WaitForEndOfFrame();
+        enemy.SetActive(true);
     }
 
     void SpawnObject(GameObject obj)
