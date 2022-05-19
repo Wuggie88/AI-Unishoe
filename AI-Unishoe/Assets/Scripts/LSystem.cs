@@ -14,7 +14,7 @@ public class LSystem : MonoBehaviour
     public Transform spawnPoint; //Spawnpoint for the spawn
     int posX; //Used to incremently increase the x-position of the spawnpoint
     public GameObject aStar;
-    public GameObject enemy;
+    //public GameObject enemy;
 
     // Start is called before the first frame update
     void Start()
@@ -98,7 +98,7 @@ public class LSystem : MonoBehaviour
         }
         aStar.SetActive(true);
         yield return new WaitForEndOfFrame();
-        enemy.SetActive(true);
+        //enemy.SetActive(true);
     }
 
     void SpawnObject(GameObject obj)

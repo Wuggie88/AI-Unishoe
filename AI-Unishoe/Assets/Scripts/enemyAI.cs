@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using UnityEngine.SceneManagement;
 
 public class enemyAI : MonoBehaviour
 {
@@ -16,9 +17,7 @@ public class enemyAI : MonoBehaviour
     bool reachedEndOfPath = false;
 
     Seeker seeker;
-    Rigidbody2D rb;
-
-    public AIPath aiPath; 
+    Rigidbody2D rb; 
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +26,7 @@ public class enemyAI : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         InvokeRepeating("UpdatePath", 0f, .5f);
+        target = GameObject.FindWithTag("Player").transform;
     }
     
     void UpdatePath()
@@ -71,15 +71,20 @@ public class enemyAI : MonoBehaviour
             currentWaypoint++;
         }
 
-        if(aiPath.desiredVelocity.x >= 0.01f)
+        if(direction.x >= 0.01f)
         {
-            transform.localScale = new Vector3(-1f, 1f, 1f);
-        }else if (aiPath.desiredVelocity.x <= 0f)
+            transform.localScale = new Vector3(-3f, 3f, 1f);
+        }else if (direction.x <= -0.01f)
         {
-            transform.localScale = new Vector3(1f, 1f, 1f);
+            transform.localScale = new Vector3(3f, 3f, 1f);
         }
 
+    }
 
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.layer == 8) {
+            SceneManager.LoadScene("SampleScene");
+        }
     }
 }
