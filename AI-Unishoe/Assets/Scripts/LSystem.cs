@@ -60,18 +60,12 @@ public class LSystem : MonoBehaviour
                     }
                     else
                     {
+                        //Is at the end platform and will start initiating the map
                         newLsystem.Add("D");
                         Lsystem = newLsystem.ToArray();
                         hasGenerated = true;
                         StartCoroutine(Generate());
                     }
-                    //newLsystem.Add("D");
-                    break;
-                default:
-                    //Is done with the L-system and begins to initiating the map
-                    Lsystem = newLsystem.ToArray();
-                    hasGenerated = true;
-                    StartCoroutine(Generate());
                     break;
             }
         }
