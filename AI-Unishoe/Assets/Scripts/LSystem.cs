@@ -14,7 +14,6 @@ public class LSystem : MonoBehaviour
     public Transform spawnPoint; //Spawnpoint for the spawn
     int posX; //Used to incremently increase the x-position of the spawnpoint
     public GameObject aStar;
-    //public GameObject enemy;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +32,7 @@ public class LSystem : MonoBehaviour
         //Goes through the Grammar list and adds for next iteration
         foreach (string c in Lsystem)
         {
+            int rndm = Random.Range(1, 6);
             switch (c)
             {
                 case "A":
@@ -41,18 +41,31 @@ public class LSystem : MonoBehaviour
 
                     break;
                 case "B":
-                    newLsystem.Add("A");
-                    newLsystem.Add("C");
+                    
+                    if(rndm <= 3)
+                    {
+                        newLsystem.Add("A");
+                        newLsystem.Add("E");
+                    }
+                    else
+                    {
+                        newLsystem.Add("A");
+                        newLsystem.Add("C");
+                    }
                     break;
                 case "C":
-                    /*if(Random.Range(1, 6) <= 5) {
+                    if (rndm >= 3)
+                    {
                         newLsystem.Add("B");
                     }
                     else
                     {
                         newLsystem.Add("D");
-                    }*/
-                    newLsystem.Add("D");
+                        Lsystem = newLsystem.ToArray();
+                        hasGenerated = true;
+                        StartCoroutine(Generate());
+                    }
+                    //newLsystem.Add("D");
                     break;
                 default:
                     //Is done with the L-system and begins to initiating the map
@@ -80,33 +93,40 @@ public class LSystem : MonoBehaviour
             switch (Lsystem[i])
             {
                 case "A":
-                    SpawnObject(Prefabs[0]);
+                    //Platform 1
+                    SpawnObject(Prefabs[0], 0);
 
                     break;
                 case "B":
-                    SpawnObject(Prefabs[1]);
+                    //Platform 2
+                    SpawnObject(Prefabs[1], 1);
 
                     break;
                 case "C":
-                    SpawnObject(Prefabs[2]);
+                    //Platform 3
+                    SpawnObject(Prefabs[2], 2);
 
                     break;
                 case "D":
-                    SpawnObject(Prefabs[3]);
+                    //End Platform
+                    SpawnObject(Prefabs[3], 3);
+                    break;
+                case "E":
+                    //Enemy Spawnpoint
+                    SpawnObject(Prefabs[4], 2);
                     break;
             }
         }
         aStar.SetActive(true);
         yield return new WaitForEndOfFrame();
-        //enemy.SetActive(true);
     }
 
-    void SpawnObject(GameObject obj)
+    void SpawnObject(GameObject obj, int posY)
     {
         //Instantiates objects and places them
-        posX += 7;
-        spawnPoint.position = new Vector3(posX, Random.Range(0, 3), 0);
-        GameObject A = Instantiate(obj);
-        A.transform.position = spawnPoint.position;
+        posX += 10;
+        spawnPoint.position = new Vector3(posX, posY, 0);
+        GameObject spawnObj = Instantiate(obj);
+        spawnObj.transform.position = spawnPoint.position;
     }
 }
